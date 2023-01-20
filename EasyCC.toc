@@ -1,0 +1,8 @@
+## Title: EasyCC
+## Notes:
+## Author: Bambi
+## Version: 2.18
+## SavedVariables: EasyCCDB
+
+EasyCC.lua
+Spells.lua
