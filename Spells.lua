@@ -344,7 +344,7 @@ local function createDropdown(opts)
 	    local change_func = opts['changeFunc'] or function (dropdown_val) end
 
 	    local dropdown = CreateFrame("Frame", dropdown_name, opts['parent'], 'UIDropDownMenuTemplate')
-	    local dd_title = dropdown:CreateFontString(dropdown, 'OVERLAY', 'GameFontNormal')
+	    local dd_title = dropdown:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
 	    dd_title:SetPoint("TOPLEFT", 20, 10)
 
 	    for _, item in pairs(menu_items) do -- Sets the dropdown width to the largest item string width.
@@ -392,7 +392,7 @@ local function createDropdownAdd(opts)
 	    local change_func = opts['changeFunc'] or function (dropdown_val) end
 
 	    local dropdown = CreateFrame("Frame", dropdown_name, opts['parent'], 'UIDropDownMenuTemplate')
-	    local dd_title = dropdown:CreateFontString(dropdown, 'OVERLAY', 'GameFontNormal')
+	    local dd_title = dropdown:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
 	    dd_title:SetPoint("TOPLEFT", 20, 10)
 
 	    for _, item in pairs(menu_items) do -- Sets the dropdown width to the largest item string width.
@@ -747,7 +747,7 @@ local numberOfSpellChecksPerRow = 5
 								local cutString1 = substring(aString1, 0, 23);
 								local cutString2 = substring(aString2, 0, 23);
 								local aString3 = cutString1.."\n"..cutString2
-								spellCheck.text:SetText(aString3);
+								spellCheck.Text:SetText(aString3);
 							elseif zone then
 								local name = GetSpellInfo(spellID)
 								if name then aString = substring(name, 0, 17)..": "..substring(prio, 0, 6) else aString ="SPELL REMOVED: "..spellID end
@@ -755,17 +755,17 @@ local numberOfSpellChecksPerRow = 5
 								local cutString1 = substring(aString1, 0, 23);
 								local cutString2 = substring(aString2, 0, 23);
 								local	aString3 = cutString1.."\n"..cutString2
-								spellCheck.text:SetText(aString3);
+								spellCheck.Text:SetText(aString3);
 							else
 								local name = GetSpellInfo(spellID)
 								if name then aString = substring(name, 0, 17)..": "..substring(prio, 0, 6) else aString ="SPELL REMOVED: "..spellID end
 								local cutString = substring(aString, 0, 23);
 									if customname and string then
-										spellCheck.text:SetText(cutString.."\n".."("..customname..")".."\n"..string);
+										spellCheck.Text:SetText(cutString.."\n".."("..customname..")".."\n"..string);
 									elseif customname then
-										spellCheck.text:SetText(cutString.."\n".."("..customname..")");
+										spellCheck.Text:SetText(cutString.."\n".."("..customname..")");
 									else
-										spellCheck.text:SetText(cutString);
+										spellCheck.Text:SetText(cutString);
 									end
 							end
 							spellCheck.icon:SetNormalTexture(GetSpellTexture(spellID) or 1)
@@ -773,11 +773,11 @@ local numberOfSpellChecksPerRow = 5
 						aString = spellID..": "..prio
 						local cutString = substring(aString, 0, 23);
 							if customname and string then
-								spellCheck.text:SetText(cutString.."\n".."("..customname..")".."\n"..string);
+								spellCheck.Text:SetText(cutString.."\n".."("..customname..")".."\n"..string);
 							elseif customname then
-								spellCheck.text:SetText(cutString.."\n".."("..customname..")");
+								spellCheck.Text:SetText(cutString.."\n".."("..customname..")");
 							else
-								spellCheck.text:SetText(cutString);
+								spellCheck.Text:SetText(cutString);
 							end
 						spellCheck.icon:SetNormalTexture(136235)
 						end
@@ -818,7 +818,7 @@ local numberOfSpellChecksPerRow = 5
 							local cutString1 = substring(aString1, 0, 23);
 							local cutString2 = substring(aString2, 0, 23);
 							local aString3 = cutString1.."\n"..cutString2
-							spellCheck.text:SetText(aString3);
+							spellCheck.Text:SetText(aString3);
 						elseif zone then
 							local name = GetSpellInfo(spellID)
 							if name then aString1 = substring(name, 0, 17)..": "..substring(prio, 0, 6) else aString1 ="SPELL REMOVED: "..spellID end
@@ -826,17 +826,17 @@ local numberOfSpellChecksPerRow = 5
 							local cutString1 = substring(aString1, 0, 23);
 							local cutString2 = substring(aString2, 0, 23);
 						  local	aString3 = cutString1.."\n"..cutString2
-							spellCheck.text:SetText(aString3);
+							spellCheck.Text:SetText(aString3);
 						else
 							local name = GetSpellInfo(spellID)
 							if name then aString = substring(name, 0, 17)..": "..substring(prio, 0, 6) else aString ="SPELL REMOVED: "..spellID end
 							local cutString = substring(aString, 0, 23);
 							if customname and string then
-								spellCheck.text:SetText(cutString.."\n".."("..customname..")".."\n"..string);
+								spellCheck.Text:SetText(cutString.."\n".."("..customname..")".."\n"..string);
 							elseif customname then
-								spellCheck.text:SetText(cutString.."\n".."("..customname..")");
+								spellCheck.Text:SetText(cutString.."\n".."("..customname..")");
 							else
-								spellCheck.text:SetText(cutString);
+								spellCheck.Text:SetText(cutString);
 							end
 						end
 						spellCheck.icon:SetNormalTexture(GetSpellTexture(spellID) or 1)
@@ -844,11 +844,11 @@ local numberOfSpellChecksPerRow = 5
 					aString = spellID..": "..prio
 					local cutString = substring(aString, 0, 23);
 						if customname and string then
-							spellCheck.text:SetText(cutString.."\n".."("..customname..")".."\n"..string);
+							spellCheck.Text:SetText(cutString.."\n".."("..customname..")".."\n"..string);
 						elseif customname then
-							spellCheck.text:SetText(cutString.."\n".."("..customname..")");
+							spellCheck.Text:SetText(cutString.."\n".."("..customname..")");
 						else
-							spellCheck.text:SetText(cutString);
+							spellCheck.Text:SetText(cutString);
 						end
 					spellCheck.icon:SetNormalTexture(136235)
 					end
@@ -874,12 +874,12 @@ local numberOfSpellChecksPerRow = 5
 									if type(spell) == "number" then
 										aString = substring(GetSpellInfo(spellID), 0, 17)..": "..substring(prio, 0, 6) or "SPELL REMOVED: "..spellID
 										local cutString = substring(aString, 0, 23);
-										if string then spellCheck.text:SetText(cutString.."\n".."("..customname..")".."\n"..string); else spellCheck.text:SetText(cutString.."\n".."Custom Priority") end
+										if string then spellCheck.Text:SetText(cutString.."\n".."("..customname..")".."\n"..string); else spellCheck.Text:SetText(cutString.."\n".."Custom Priority") end
 										spellCheck.icon:SetNormalTexture(GetSpellTexture(spellID) or 1)
 									else
 										aString = spellID..": "..prio
 										local cutString = substring(aString, 0, 23);
-										if string then spellCheck.text:SetText(cutString.."\n".."("..customname..")".."\n"..string); else spellCheck.text:SetText(cutString.."\n".."Custom Priority") end
+										if string then spellCheck.Text:SetText(cutString.."\n".."("..customname..")".."\n"..string); else spellCheck.Text:SetText(cutString.."\n".."Custom Priority") end
 										spellCheck.icon:SetNormalTexture(136235)
 									end
 								end
@@ -888,7 +888,7 @@ local numberOfSpellChecksPerRow = 5
 
 
 					local dropdown = createDropdown(drop_opts)
-					dropdown:SetPoint("LEFT", spellCheck.text, "RIGHT", -10,0)
+					dropdown:SetPoint("LEFT", spellCheck.Text, "RIGHT", -10,0)
 					dropdown:SetScale(.55)
 					spellCheck.spellID = spellID
 					spellCheck.Green.spellID = spellID
