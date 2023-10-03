@@ -1,8 +1,8 @@
-## Interface: 30402
+## Interface: 30403
 ## Title: EasyCC
 ## Notes: Tracks being CC / Interrupted, can track custom added Debuffs
 ## Author: Bambi
-## Version: 2.19
+## Version: 2.20
 ## SavedVariablesPerCharacter: EasyCCDB
 
 EasyCC.lua

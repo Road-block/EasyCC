@@ -26,6 +26,7 @@ local Ctimer = C_Timer.After
 local substring = string.sub
 local su = string.sub
 local CLocData = C_LossOfControl.GetActiveLossOfControlData
+local UnitIsUnit = UnitIsUnit
 local f, x, y
 local _G = _G
 local EasyCCDB
@@ -3608,12 +3609,17 @@ EasyCC:SetScript("OnEvent", function(frame, event, ...)
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		--EasyCC:cleu()
   elseif event == "LOSS_OF_CONTROL_ADDED" then
-      local Index = ...
-      local data = C_LossOfControl.GetActiveLossOfControlData(Index)
-    	EasyCC:LossOfControl(data, Index)
+      local Unit, Index = ...
+      if UnitIsUnit(Unit,"player") then
+        local data = CLocData(Index)
+      	EasyCC:LossOfControl(data, Index)
+      end
   elseif event == "LOSS_OF_CONTROL_UPDATE" then
-      local data = C_LossOfControl.GetActiveLossOfControlData(1)
-    	EasyCC:LossOfControl(data)
+      local Unit = ...
+      if UnitIsUnit(Unit,"player") then
+        local data = CLocData(1)
+        EasyCC:LossOfControl(data)
+      end
   elseif event == "UNIT_AURA" and ... == "player" then
       EasyCC:PlayerAura(...)
 	elseif event == "PLAYER_ENTERING_WORLD" then
