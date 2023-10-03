@@ -1,4 +1,4 @@
-## Interface: 30401
+## Interface: 30402
 ## Title: EasyCC
 ## Notes: Tracks being CC / Interrupted, can track custom added Debuffs
 ## Author: Bambi
