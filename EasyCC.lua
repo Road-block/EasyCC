@@ -5,6 +5,18 @@ local SetNormalTexture = SetNormalTexture
 local SetSwipeTexture = SetSwipeTexture
 local SetCooldown = SetCooldown
 local SetAlpha, SetPoint, SetParent, SetFrameLevel, SetDrawSwipe, SetSwipeColor, SetScale, SetHeight, SetWidth, SetDesaturated, SetVertexColor = SetAlpha, SetPoint, SetParent, SetFrameLevel, SetDrawSwipe, SetSwipeColor,  SetScale, SetHeight, SetWidth, SetDesaturated, SetVertexColor
+local EnableWidget = function(widget)
+  if widget and widget.Enable then
+    widget:Enable()
+  end
+end
+local DisableWidget = function(widget)
+  if widget and widget.Disable then
+    widget:Disable()
+  end
+end
+local BlizzardOptionsPanel_Slider_Enable = _G.BlizzardOptionsPanel_Slider_Enable or EnableWidget
+local BlizzardOptionsPanel_Slider_Disable = _G.BlizzardOptionsPanel_Slider_Disable or DisableWidget
 local ClearAllPoints = ClearAllPoints
 local GetParent = GetParent
 local GetFrameLevel = GetFrameLevel
@@ -334,7 +346,7 @@ local spellsTable = {
 {33395    , "Root"},				-- Freeze
 
 },
-{"Palladin",
+{"Paladin",
 --{642      , "Immune"},			-- Divine Shield
 --{498      , "Immune"},			-- Divine Protection (not immune, damage taken reduced by 50%)
 --{19753    , "Immune"},			-- Divine Intervention
@@ -1612,7 +1624,7 @@ local spellsTable = {
 {43489    , "CC"},				-- Grasp of the Lich King
 {51788    , "CC"},				-- Lost Soul
 {66490    , "CC"},				-- P3Wx2 Laser Barrage
-{60778    , "CC"},				-- Serenity
+--{60778    , "CC"},				-- Serenity
 {44848    , "CC"},				-- Tumbling
 {49946    , "CC"},				-- Chaff
 {51899    , "CC"},				-- Banshee Curse (chance to hit reduced by 40%)
@@ -4051,7 +4063,7 @@ function EasyCC:OnLoad()
 		f:SetScript("OnEvent", self.OnEvent)
 		f:SetScript("OnDragStart", self.StartMoving) -- this function is already built into the Frame class
 		f:SetScript("OnDragStop", self.StopMoving)
-		print("|cff00ccffEasyCC|r","|cffFF7D0A (TBC)|r",": Type \"/ecc\"")
+		print("|cff00ccffEasyCC|r","|cffFF7D0A (Cata)|r",": Type \"/ecc\"")
 	end
 end
 
@@ -4226,7 +4238,7 @@ function EasyCC:toggletest()
 		f:SetMovable(true)
 		f:RegisterForDrag("LeftButton")
 		f:EnableMouse(true)
-		print("|cff00ccffEasyCC|r","|cffFF7D0A (TBC)|r",": Test Mode On")
+		print("|cff00ccffEasyCC|r","|cffFF7D0A (Cata)|r",": Test Mode On")
 	else
 		self.test = nil
 		f:EnableMouse(false)
@@ -4234,7 +4246,7 @@ function EasyCC:toggletest()
 		f:SetMovable(false)
     f.TimeSinceLastUpdate = 0
     if f and f:IsShown() then f:Hide() end
-		print("|cff00ccffEasyCC|r","|cffFF7D0A (TBC)|r",": Test Mode Off")
+		print("|cff00ccffEasyCC|r","|cffFF7D0A (Cata)|r",": Test Mode Off")
 	end
 end
 
@@ -4244,14 +4256,14 @@ local O = addonName .. "OptionsPanel"
 
 local function CreateSlider(text, parent, low, high, step, globalName)
 	local name = globalName or (parent:GetName() .. text)
-	local slider = CreateFrame("Slider", name, parent, "OptionsSliderTemplate")
+	local slider = CreateFrame("Slider", name, parent, "UISliderTemplateWithLabels")--"OptionsSliderTemplate")
 	slider:SetHeight(8)
 	slider:SetWidth(150)
 	slider:SetScale(.9)
 	slider:SetMinMaxValues(low, high)
 	slider:SetValueStep(step)
 	slider:SetObeyStepOnDrag(true)
-	--_G[name .. "Text"]:SetText(text)
+	_G[name .. "Text"]:SetText(text)
 	_G[name .. "Low"]:SetText("")
 	_G[name .. "High"]:SetText("")
 	return slider
@@ -4270,7 +4282,7 @@ BambiText:SetFont("Fonts\\MORPHEUS.ttf", 14 )
 BambiText:SetText("By ".."|cff00ccffBambi|r")
 BambiText:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 65, 1)
 
-local Spells = CreateFrame("Button", O.."Spells", OptionsPanel, "OptionsButtonTemplate")
+local Spells = CreateFrame("Button", O.."Spells", OptionsPanel, "UIPanelButtonTemplate")
 _G[O.."Spells"]:SetText("Customize Any Spells")
 Spells:SetHeight(28)
 Spells:SetWidth(200)
@@ -4289,7 +4301,7 @@ unlocknewline:SetFont("Fonts\\FRIZQT__.TTF", 16 )
 unlocknewline:SetText(" (drag to move)")
 
 -- "Unlock" checkbox - allow the frames to be moved
-local Unlock = CreateFrame("CheckButton", O.."Unlock", OptionsPanel, "OptionsCheckButtonTemplate")
+local Unlock = CreateFrame("CheckButton", O.."Unlock", OptionsPanel, "InterfaceOptionsCheckButtonTemplate")
 function Unlock:OnClick()
 	if self:GetChecked() then
 		unlocknewline:SetPoint("LEFT", Unlock, "RIGHT", 40, 0)
@@ -4315,11 +4327,13 @@ Scale:SetScript("OnValueChanged", function(self, value)
 Scale:SetScale(1)
 Scale:SetWidth(200)
 	_G[self:GetName() .. "Text"]:SetText("EasyCC Scale" .. " (" .. ("%.2f"):format(value) .. ")")
-	f:SetScale(EasyCCDB.Scale)
+  if f and f.SetScale then
+  	f:SetScale(EasyCCDB.Scale)
+  end
 	EasyCCDB.Scale = ("%.2f"):format(value)-- the real alpha value
 end)
 
-local AnimateText = CreateFrame("CheckButton", O.."Unlock", OptionsPanel, "OptionsCheckButtonTemplate")
+local AnimateText = CreateFrame("CheckButton", O.."Unlock", OptionsPanel, "InterfaceOptionsCheckButtonTemplate")
 AnimateText:SetScript("OnClick", function(self)
   if self:GetChecked() then
 	  EasyCCDB.AnimateText = true
@@ -4502,7 +4516,7 @@ PrioritySnare:SetWidth(200)
 end)
 
 local LossOfControl
-LossOfControl = CreateFrame("CheckButton", O.."LossOfControl", OptionsPanel, "OptionsCheckButtonTemplate")
+LossOfControl = CreateFrame("CheckButton", O.."LossOfControl", OptionsPanel, "InterfaceOptionsCheckButtonTemplate")
 LossOfControl:SetScale(1)
 LossOfControl:SetHitRectInsets(0, 0, 0, 0)
 _G[O.."LossOfControlText"]:SetText("LossOfControl")
@@ -4588,7 +4602,7 @@ LoCOptions:SetJustifyH("LEFT")
 LoCOptions:SetPoint("TOPLEFT", LossOfControlSnare, "TOPLEFT", 0, -25)
 
 -------------------------------------------------------------------------------
-OptionsPanel.default = function() -- This method will run when the player clicks "defaults"
+OptionsPanel.OnDefault = function() -- This method will run when the player clicks "defaults"
   if not LossOfControl:GetChecked() then
     BlizzardOptionsPanel_Slider_Enable(LossOfControlFull)
     BlizzardOptionsPanel_Slider_Enable(LossOfControlInterrupt)
@@ -4626,10 +4640,11 @@ OptionsPanel.default = function() -- This method will run when the player clicks
 	L.Spells:UpdateAll()
 
   if EasyCC.test then EasyCC:toggletest() end
-  print("|cff00ccffEasyCC|r","|cffFF7D0A (TBC)|r",": Reset (Requires Reload for Green Bar & Custom Text Settings)")
+  print("|cff00ccffEasyCC|r","|cffFF7D0A (Cata)|r",": Reset (Requires Reload for Green Bar & Custom Text Settings)")
 end
+OptionsPanel.default = OptionsPanel.OnDefault
 
-OptionsPanel.refresh = function()
+OptionsPanel.OnRefresh = function()
 	 -- This method will run when the Interface Options frame calls its OnShow function and after defaults have been applied via the panel.default method described above.
 	LossOfControl:SetChecked(EasyCCDB.LossOfControl)
 	LossOfControlFull:SetValue(EasyCCDB.durationTime["CC"])
@@ -4664,8 +4679,15 @@ OptionsPanel.refresh = function()
   if EasyCCDB.durationTime["Root"] == 2 then SetCVar("lossOfControlRoot", 2) elseif EasyCCDB.durationTime["Root"]  == 1 then SetCVar("lossOfControlRoot", 1) else SetCVar("lossOfControlRoot", 0) end
 
 end
+OptionsPanel.refresh = OptionsPanel.OnRefresh
 
-InterfaceOptions_AddCategory(OptionsPanel)
+if _G.InterfaceOptions_AddCategory then
+  InterfaceOptions_AddCategory(OptionsPanel)
+elseif Settings and Settings.RegisterCanvasLayoutCategory then
+  local cat = Settings.RegisterCanvasLayoutCategory(OptionsPanel,OptionsPanel.name)
+  L.settingsCat = cat
+  Settings.RegisterAddOnCategory(cat)
+end
 
 -------------------------------------------------------------------------------
 SLASH_ECC1 = "/ecc"
@@ -4673,7 +4695,7 @@ SLASH_ECC1 = "/ecc"
 local SlashCmd = {}
 
 function SlashCmd:reset()
-  OptionsPanel.default()
+  OptionsPanel.OnDefault()
 end
 
 SlashCmdList["ECC"] = function(cmd)
@@ -4684,7 +4706,11 @@ SlashCmdList["ECC"] = function(cmd)
 	if SlashCmd[args[1]] then
 		SlashCmd[args[1]](unpack(args))
 	else
-		print("|cff00ccffEasyCC|r","|cffFF7D0A (TBC)|r",": Type \"/ecc reset\" to reset all settings")
-    InterfaceOptionsFrame_OpenToCategory(OptionsPanel)
+		print("|cff00ccffEasyCC|r","|cffFF7D0A (Cata)|r",": Type \"/ecc reset\" to reset all settings")
+    if _G.InterfaceOptionsFrame_OpenToCategory then
+      InterfaceOptionsFrame_OpenToCategory(OptionsPanel)
+    elseif Settings and Settings.OpenToCategory then
+      Settings.OpenToCategory(L.settingsCat.ID)
+    end
 	end
 end
