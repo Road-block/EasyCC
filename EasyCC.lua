@@ -15,6 +15,17 @@ local DisableWidget = function(widget)
     widget:Disable()
   end
 end
+local GetSpellInfo = function(...)
+  if C_Spell and C_Spell.GetSpellInfo then
+    local info = C_Spell.GetSpellInfo(...)
+    if info then
+      return info.name, nil, info.iconID, info.castTime, info.minRange, info.maxRange, info.spellID, info.originalIconID
+    end
+  elseif _G.GetSpellInfo then
+    return _G.GetSpellInfo(...)
+  end
+end
+local UnitAffectingCombat = UnitAffectingCombat
 local BlizzardOptionsPanel_Slider_Enable = _G.BlizzardOptionsPanel_Slider_Enable or EnableWidget
 local BlizzardOptionsPanel_Slider_Disable = _G.BlizzardOptionsPanel_Slider_Disable or DisableWidget
 local ClearAllPoints = ClearAllPoints
@@ -3638,6 +3649,10 @@ EasyCC:SetScript("OnEvent", function(frame, event, ...)
 		  EasyCC:OnLoad()
 	elseif event == "ADDON_LOADED" and ... == addonName then
 		  EasyCC:ADDON_LOADED(...)
+  elseif event == "SPELLS_CHANGED" then
+      EasyCC:SPELLS_CHANGED(...)
+  elseif event == "PLAYER_REGEN_ENABLED" then
+      EasyCC:PLAYER_REGEN_ENABLED()
 	end
 end)
 
@@ -4088,11 +4103,26 @@ function EasyCC:ADDON_LOADED(arg1)
 			end
 		end
     EasyCCDB = _G.EasyCCDB
-    self:CompileSpells()
-    L.Spells:Addon_Load()
+    EasyCC:RegisterEvent("SPELLS_CHANGED")
 	end
 end
 
+function EasyCC:SPELLS_CHANGED(...)
+  if UnitAffectingCombat("player") then
+    self:RegisterEvent("PLAYER_REGEN_ENABLED")
+    self:UnregisterEvent("SPELLS_CHANGED")
+    return
+  end
+  self:UnregisterEvent("SPELLS_CHANGED")
+  self:CompileSpells()
+  L.Spells:Addon_Load()
+end
+
+function EasyCC:PLAYER_REGEN_ENABLED()
+  self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+  self:CompileSpells()
+  L.Spells:Addon_Load()
+end
 
 function EasyCC:CompileSpells(typeUpdate)
 		spellIds = {}

@@ -20,10 +20,20 @@ local UnitIsEnemy = UnitIsEnemy
 local UnitHealth = UnitHealth
 local UnitName = UnitName
 local UnitGUID = UnitGUID
+local UnitAffectingCombat = UnitAffectingCombat
 local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo
 local IsInInstance = IsInInstance
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
-local GetSpellInfo = GetSpellInfo
+local GetSpellInfo = function(...)
+  if C_Spell and C_Spell.GetSpellInfo then
+    local info = C_Spell.GetSpellInfo(...)
+    if info then
+      return info.name, nil, info.iconID, info.castTime, info.minRange, info.maxRange, info.spellID, info.originalIconID
+    end
+  elseif _G.GetSpellInfo then
+    return _G.GetSpellInfo(...)
+  end
+end
 local GetTime = GetTime
 local GetName = GetName
 local GetNumGroupMembers = GetNumGroupMembers
@@ -616,7 +626,7 @@ if not UISpells then CreateMenu(); Spells:UpdateAllSpellList() end
 end
 
 function Spells:Toggle() --Builds the Table
-	if not UISpells then Spells:CreateMenu(); Spells:UpdateAllSpellList() end
+	if not UISpells then CreateMenu(); Spells:UpdateAllSpellList() end
 	local menu = UISpells
 	menu:SetShown(not menu:IsShown());
 end
