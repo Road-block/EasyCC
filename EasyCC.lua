@@ -25,6 +25,13 @@ local GetSpellInfo = function(...)
     return _G.GetSpellInfo(...)
   end
 end
+local IsAddOnLoaded = function(...)
+  if C_AddOns and C_AddOns.IsAddOnLoaded then
+    return C_AddOns.IsAddOnLoaded(...)
+  elseif _G.IsAddOnLoaded then
+    return _G.IsAddOnLoaded(...)
+  end
+end
 local UnitAffectingCombat = UnitAffectingCombat
 local BlizzardOptionsPanel_Slider_Enable = _G.BlizzardOptionsPanel_Slider_Enable or EnableWidget
 local BlizzardOptionsPanel_Slider_Disable = _G.BlizzardOptionsPanel_Slider_Disable or DisableWidget
