@@ -5,6 +5,7 @@ local SetNormalTexture = SetNormalTexture
 local SetSwipeTexture = SetSwipeTexture
 local SetCooldown = SetCooldown
 local SetAlpha, SetPoint, SetParent, SetFrameLevel, SetDrawSwipe, SetSwipeColor, SetScale, SetHeight, SetWidth, SetDesaturated, SetVertexColor = SetAlpha, SetPoint, SetParent, SetFrameLevel, SetDrawSwipe, SetSwipeColor,  SetScale, SetHeight, SetWidth, SetDesaturated, SetVertexColor
+local LossOfControlFrame_Show_Orig
 local EnableWidget = function(widget)
   if widget and widget.Enable then
     widget:Enable()
@@ -4111,6 +4112,12 @@ function EasyCC:ADDON_LOADED(arg1)
 		end
     EasyCCDB = _G.EasyCCDB
     EasyCC:RegisterEvent("SPELLS_CHANGED")
+    if EasyCCDB.LossOfControl then
+      if not LossOfControlFrame_Show_Orig and LossOfControlFrame then
+        LossOfControlFrame_Show_Orig = LossOfControlFrame.Show
+      end
+      LossOfControlFrame.Show = LossOfControlFrame.Hide
+    end
 	end
 end
 
@@ -4579,6 +4586,10 @@ LossOfControl:SetScript("OnClick", function(self)
     BlizzardOptionsPanel_Slider_Enable(PriorityOther)
     BlizzardOptionsPanel_Slider_Enable(PriorityWarning)
     BlizzardOptionsPanel_Slider_Enable(PrioritySnare)
+    if not LossOfControlFrame_Show_Orig and LossOfControlFrame then
+      LossOfControlFrame_Show_Orig = LossOfControlFrame.Show
+    end
+    LossOfControlFrame.Show = LossOfControlFrame.Hide
 	else
 		SetCVar("LossOfControl", 0)
 		BlizzardOptionsPanel_Slider_Disable(LossOfControlFull)
@@ -4599,6 +4610,9 @@ LossOfControl:SetScript("OnClick", function(self)
     BlizzardOptionsPanel_Slider_Disable(PriorityOther)
     BlizzardOptionsPanel_Slider_Disable(PriorityWarning)
     BlizzardOptionsPanel_Slider_Disable(PrioritySnare)
+    if LossOfControlFrame_Show_Orig then
+      LossOfControlFrame.Show = LossOfControlFrame_Show_Orig
+    end
 	end
 end)
 
