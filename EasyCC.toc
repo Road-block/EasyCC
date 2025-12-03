@@ -2,7 +2,7 @@
 ## Title: EasyCC
 ## Notes: Tracks being CC / Interrupted, can track custom added Debuffs
 ## Author: Bambi, Roadblock
-## Version: 2.24
+## Version: 2.25
 ## SavedVariablesPerCharacter: EasyCCDB
 
 EasyCC.lua
