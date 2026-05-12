@@ -1,8 +1,9 @@
-## Interface: 50503,50502,50500,40402
+## Interface: 50503,50504
 ## Title: EasyCC
 ## Notes: Tracks being CC / Interrupted, can track custom added Debuffs
 ## Author: Bambi, Roadblock
-## Version: 2.25
+## Version: 2.26
+## Category: Combat
 ## SavedVariablesPerCharacter: EasyCCDB
 
 EasyCC.lua

@@ -4328,7 +4328,7 @@ function EasyCC:OnLoad()
     f:SetScript("OnEvent", self.OnEvent)
     f:SetScript("OnDragStart", self.StartMoving) -- this function is already built into the Frame class
     f:SetScript("OnDragStop", self.StopMoving)
-    print("|cff00ccffEasyCC|r", "|cffFF7D0A (Cata)|r", ': Type "/ecc"')
+    print("|cff00ccffEasyCC|r", "|cffFF7D0A (Mists)|r", ': Type "/ecc"')
   end
 end
 
